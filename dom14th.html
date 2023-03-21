@@ -10,20 +10,20 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 
-<body class="p-4 mb-2" style="color: black; background-color:mediumpurple">
+<body class="p-4 mb-2" style="color: black; background-color:rgb(216, 159, 112)">
     <div>
         <h1>CONTACT US...</h1>
-        <form onsubmit="saveToLocalStorage(event)">
+        <form onsubmit="saveOnCrudCrud(event)">
             <div class="col-md-4">
-                <label for="name" class="form-label">Name:</label>
+                <label>Name:</label>
                 <input type="text" class="form-control " id="name" name="name" placeholder="Enter Your full name"
                     required>
 
-                <label for="email" class="form-label">Mail Id:</label>
+                <label>email Id:</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Enter your mail-id"
                     required>
 
-                <label for="phonenumber" class="form-label">Mobile Number:</label>
+                <label>Mobile Number:</label>
                 <div class="input-group has-validation">
                     <span class="input-group-text" id="phonenumber">+91</span>
                     <input type="tel" pattern="[0-9]{10}" class="form-control" id="phonenumber" name="phonenumber"
@@ -38,18 +38,45 @@
         <br>
         <ol id="list"></ol>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
     <script>
-        function saveToLocalStorage(event) {
+        function saveOnCrudCrud(event) {
             event.preventDefault();
             const name = event.target.name.value;
             const email = event.target.email.value;
             const phonenumber = event.target.phonenumber.value;
             const object = { name, email, phonenumber };
 
-            localStorage.setItem(email, JSON.stringify(object));
-
-            showUserOnScreen(object, email); //(object)
+            
+              //Storing data on curd curd
+            axios.post("https://crudcrud.com/api/7d5a474a5f6b43bab08bdd43086aea5f/appointmentsaver", object)
+            .then((response) => {
+                    showUserOnScreen(response.data)
+                    //console.log(response);
+                })
+                .catch((error) => {
+                    document.body.innerHTML = document.body.innerHTML + `<h3> Something went wrong.....!`;
+                    console.log(error);
+                })
         }
+        window.addEventListener('load', () => {
+            axios.get("https://crudcrud.com/api/7d5a474a5f6b43bab08bdd43086aea5f/appointmentsaver")
+                .then((response) => {
+                    for (let i = 0; i < response.data.length; i++) {
+                        showUserOnScreen(response.data[i])
+                    }
+                    //console.log(response);
+                })
+                .catch((error) => {
+                    document.body.innerHTML = document.body.innerHTML + `<h3> Something went wrong.....!`;
+                    console.log(error);
+                })
+        })
+            //localStorage.setItem(email, JSON.stringify(object));
+
+            //showUserOnScreen(object, email); //(object)
+        
         function showUserOnScreen(object, email) { //(object)
             const parentElem = document.getElementById('list');
             const newUser = document.createElement('li');
