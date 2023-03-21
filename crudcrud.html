@@ -117,8 +117,19 @@
                 document.getElementById('name').value = object.name;
                 document.getElementById('email').value = object.email;
                 document.getElementById('phonenumber').value = object.phonenumber;
-                localStorage.removeItem(email);
-                parentElem.removeChild(newUser);
+                //edit user details on crud crud
+                axios.put(`https://crudcrud.com/api/7d5a474a5f6b43bab08bdd43086aea5f/appointmentsaver/${object._id}`,
+                    { name: object.name, email: object.email, phonenumber: object.phonenumber })
+                    .then(() => {
+                        axios.delete(`https://crudcrud.com/api/7d5a474a5f6b43bab08bdd43086aea5f/appointmentsaver/${object._id}`)
+                            .then(() => {
+                                parentElem.removeChild(newUser);
+                            })
+                    })
+                    .catch((error) => {
+                        document.body.innerHTML = document.body.innerHTML + `<h3> Something went wrong in updating.....!`;
+                    })
+                // parentElem.removeChild(newUser);
             }
             newUser.appendChild(editBtn);
             parentElem.appendChild(newUser);
