@@ -73,6 +73,9 @@
                     console.log(error);
                 })
         })
+
+       
+
             //localStorage.setItem(email, JSON.stringify(object));
 
             //showUserOnScreen(object, email); //(object)
@@ -82,13 +85,24 @@
             const newUser = document.createElement('li');
             newUser.textContent = object.name + ', ' + object.email + ', ' + object.phonenumber;
 
+
+
             //Cereate delete button
             var deleteBtn = document.createElement('input');
             deleteBtn.type = 'button';
             deleteBtn.value = 'Delete';
             deleteBtn.className = 'btn btn-warning'
+
+        
+            //delete data on crud crud
             deleteBtn.onclick = () => {
-                localStorage.removeItem(email); //(object.email)
+                axios.delete(`https://crudcrud.com/api/7d5a474a5f6b43bab08bdd43086aea5f/appointmentsaver/${object._id}`)
+                    .then()
+                    .catch((error) => {
+                        document.body.innerHTML = document.body.innerHTML + `<h3> Something went wrong in deletion.....!`;
+                    })
+                    
+                //localStorage.removeItem(email); //(object.email)
                 parentElem.removeChild(newUser);
             }
             newUser.appendChild(deleteBtn);
