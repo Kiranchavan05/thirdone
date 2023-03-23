@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E commerce</title>
+</head>
+<body>
+    <form onsubmit="savetocrud(event)">
+        <label>Selling Price :</label>
+        <input type="number" id="price" name="price" required> <br><br>
+        <label>Product Name :</label>
+        <input type="text" id="product" name="product" required> <br> <br>
+        <input type="submit" value="Add Product">
+
+    </form>
+    <h1>Products</h1><br><br>
+    <h2>Total value Worth of Products:</h2><br></br>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
+    <script>
+        function savetocrud(event){
+            event.preventDefault()
+            const price = event.target.price.value
+            const product = event.target.product.value
+
+            const obj = {
+                price,
+                product
+                
+            }
+
+            axios.post('https://crudcrud.com/api/d2416917c3a84f628453864a6139c39b/Ecommerce',obj)
+            .then((response) => {
+                showOnScreen(response.data)
+            }).catch((error) => {
+            document.body.innerHTML = document.body.innerHTML + `<h3> Something went wrong.....!`;
+            console.log(error);
+            })
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            axios.get('https://crudcrud.com/api/d2416917c3a84f628453864a6139c39b')
+            .then((response) => {
+                console.log(response.data)
+
+                for( let i= 0; i< response.data.length ; i++){
+                    showOnScreen(response.data[i])
+                }
+            })
+            .catch(err => console.log(err))
+        })
+
+        function showOnScreen(user){
+            document.getElementById('price').value = ''
+            document.getElementById('product').value = ''
+           
+
+            const parent = document.getElementById(user.price)
+            const child = `<li id=${user._id}> ${user.price} - ${user.product}
+            <button onclick= editOrder('${user.price}','${user.product}','${user._id}')> Edit Order </button>
+            <button onclick = deleteOrder('${user._id}','${user.price}')> Delete Order </button> </li>`
+            parent.innerHTML = parent.innerHTML + child 
+        } 
+
+        function deleteOrder(userid, price){
+            axios.delete(`https://crudcrud.com/api/d2416917c3a84f628453864a6139c39b/Ecommerce/${userid}`)
+            .then(() => {
+                removeFromScreen(userid,price)
+            })
+            .catch(err => console.log(err))
+        }
+
+        function removeFromScreen(userid, price){
+            const parent = document.getElementById(price)
+            const child = document.getElementById(userid)
+            parent.removeChild(child)
+        }
+
+        function editOrder(price,product,category,userid){
+            document.getElementById('price').value = price
+            document.getElementById('product').value = product
+            
+
+            deleteOrder(userid,price)
+        }
+    </script>
+</body>
+</html>
