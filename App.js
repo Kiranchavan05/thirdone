@@ -11,7 +11,7 @@ const DummyExpenses = [
     amount: "100",
     date: new Date(2023, 1, 12),
   },
-  { id: "e2", title: "New TV", amount: "500", date: new Date(2023, 2, 11) },
+  { id: "e2", title: "New TV", amount: "500", date: new Date(2021, 2, 11) },
   {
     id: "e3",
     title: "Car Insurance",
@@ -22,7 +22,7 @@ const DummyExpenses = [
     id: "e4",
     title: "New Desk (Wooden)",
     amount: "450",
-    date: new Date(2023, 2, 5),
+    date: new Date(2019, 2, 5),
   },
 ];
 
