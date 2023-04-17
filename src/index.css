@@ -1,11 +1,16 @@
 * {
- box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-html{
-  background: #a331f5;
+html {
+  font-family: sans-serif;
+  background: #fff;
 }
 
-body{
-  margin:0;
+body {
+  margin: 0;
+}
+
+main {
+  margin-top: 6rem;
 }
